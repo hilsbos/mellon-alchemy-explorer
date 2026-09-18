@@ -71,12 +71,12 @@ a.open {
 <div class="chips" id="chips"></div>
 <p class="meta" id="count"></p>
 <div class="list" id="list"></div>
-<p class="note">Each summary is written from Yale catalog abstracts plus standard identification of named works (Maier, Ripley, Dee, Rupescissa, and others). Miscellanies were not read page by page. Open the Yale link for images and the official record. Unofficial explorer of the “alchemy Mellon” Digital Collections set (75 items).</p>
+<p class="note">Each summary is written from Yale catalog abstracts plus standard identification of named works. Unofficial explorer of Yale Digital Collections Mellon alchemy records (75 items).</p>
 <script>
 let ITEMS = [];
 async function load(){
-  const r = await fetch('items.json');
-  ITEMS = await r.json();
+  const [a,b] = await Promise.all([fetch('items-a.json').then(r=>r.json()), fetch('items-b.json').then(r=>r.json())]);
+  ITEMS = a.concat(b);
   render();
 }
 const chips = [
@@ -122,7 +122,7 @@ function render(){
       ${it.creator ? `<p class="who">${it.creator}</p>` : ''}
       <p class="when">${it.date || ''}</p>
       <p class="label">Summary</p>
-      <p class="sum">${it.summary}</p>
+      <p class="sum">${it.summary || ''}</p>
       <div class="row">
         <span class="tag">${kind(it)==='printed'?'Printed':'Manuscript'}</span>
         ${it.images ? `<span class="tag">${it.images} images</span>` : ''}
